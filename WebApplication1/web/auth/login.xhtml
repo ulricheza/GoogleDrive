@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>Login</title>
+        <h:outputStylesheet name="app.css" library="css"  />
+    </h:head>
+    
+    <h:body>
+        <div style="color: white;margin: 50px;text-align: center;border-bottom: 1px solid;">
+            <h1>Google Drive</h1>
+        </div>
+                
+        <div class="center-div">
+            <p:messages  />
+        </div>
+            
+        <h:form>
+            <p:panel id="panel">                
+                <p:focus context="panel" />
+                <p:panelGrid columns="1" styleClass="panelGrid">
+                    <p:inputText id="login" value="#{userController.user.login}" placeholder="login"
+                                 required="true" requiredMessage="Please enter your login" />
+                            
+                    <p:password id="password" value="#{userController.user.password}" placeholder="password"
+                                required="true" requiredMessage="Please enter your password" />
+                     
+                    <p:row>
+                        <h:outputLabel styleClass="white-text" >
+                            <h:selectBooleanCheckbox value="#{userController.remember}" />
+                            Remember Me
+                        </h:outputLabel>
+                    </p:row>
+                    
+                    <h:commandButton style="width: 100%;" value="Sign in" 
+                                     action="#{userController.signIn}"/>                    
+                </p:panelGrid>
+            </p:panel>
+        </h:form>    
+        
+        <div class="center-div">
+            <h:link value="create new account" outcome="/auth/register" />
+        </div>
+    </h:body>
+</html>
