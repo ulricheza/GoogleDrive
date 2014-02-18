@@ -7,10 +7,14 @@
         <title>Header</title>
     </h:head>
     <h:body>
-        <ui:composition>
-            <h:form>
-                <h:commandButton value="logout" action="#{userController.logout}"/>  
-            </h:form>
+        <ui:composition>            
+            <h1>Google Drive</h1>
+                    
+            <div class="buttons">
+                <h:form>
+                    <h:commandButton value="logout" action="#{userController.logout}"/>  
+                </h:form>
+            </div>            
         </ui:composition>
     </h:body>
 </html>

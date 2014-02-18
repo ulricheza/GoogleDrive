@@ -45,6 +45,8 @@ public class UserController implements Serializable{
     public void init(){
         user = new User();
         
+        remember = true;
+        
         cookieProperties.put("path", CookieService.COOKIE_PATH);
         cookieProperties.put("maxAge", CookieService.COOKIE_MAX_AGE);
     }
