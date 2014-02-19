@@ -70,7 +70,7 @@ public class UserController implements Serializable{
         }
         else{
             sendError("Login failed");
-            return "";
+            return null;
         }
     }
     
@@ -95,11 +95,11 @@ public class UserController implements Serializable{
                
         if (!pwdConfirmation.equals(user.getPassword())){            
             sendError("Passwords don't match");            
-            return "";
+            return null;
         }
         else if (userService.findByLogin(user.getLogin()) != null){
             sendError("Login already in use");            
-            return "";            
+            return null;            
         }        
         else {
             userService.create(user);

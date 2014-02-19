@@ -26,13 +26,12 @@ public class Document implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(unique = true)
     private String title;
     
     @ManyToOne
     private User owner;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;    
     
     private String content;
@@ -65,4 +64,20 @@ public class Document implements Serializable{
     public String getContent() {
         return content;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }    
 }

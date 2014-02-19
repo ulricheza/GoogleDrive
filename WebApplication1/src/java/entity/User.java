@@ -8,6 +8,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,25 @@ public class User implements Serializable{
         this.login = name;
         this.password = password;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 61 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        return Objects.equals(this.id, other.id);
+    }
     
     public Long getId() {
         return id;
@@ -75,9 +95,7 @@ public class User implements Serializable{
 
     public void setProfileImage(byte[] profileImage) {
         this.profileImage = profileImage;
-    }
-    
-    
+    }    
     
     /*@OneToMany
     private List<Document> starred;

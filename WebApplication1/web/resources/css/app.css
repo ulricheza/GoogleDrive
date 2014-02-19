@@ -67,3 +67,20 @@ a {
 .ui-menu .ui-menuitem-link {
     width: 94% !important;
 }
+
+#form-buttons button {    
+    margin-top:10px;  
+}
+
+.ui-dialog .ui-dialog-content {
+    background-color: white !important;
+}
+
+.horizontal-line {
+    border-bottom: 1px solid rgb(204, 204, 204);
+    margin-top:17px;    
+}
+
+.left-align {
+    text-align: left;
+}
