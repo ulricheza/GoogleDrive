@@ -16,12 +16,6 @@ body {
     margin: auto;
 }
 
-.ui-widget-content {
- /*   border-style: none;
-    border: 0px solid ;
-    background: none;*/
-}
-
 .center-div {
     text-align: center;width: 50%;margin:auto;
 }
@@ -48,16 +42,6 @@ body {
     margin-top: 10px;
 }
 
-.ui-menu .ui-menu-list .ui-menuitem {
-/*
-    border: 1px solid !important;
-    background-color: white;*/
-}
-
-.ui-menu .ui-menuitem-link {
-   /* width: 94% !important;*/
-}
-
 #form-buttons button {    
     margin-top:10px;  
 }
@@ -78,4 +62,12 @@ body {
 div[id="growl_container"] {
     left: 40%;
     text-align: center;    
+}
+
+.toolbar {
+    padding: 0px !important;
+}
+
+.toolbar .ui-panel-content {
+    padding: 0px !important;
 }

@@ -9,6 +9,8 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,15 +41,16 @@ public class User implements Serializable{
     private String password;
     
     @Lob
-    byte[] profileImage;
+    @Basic(fetch = FetchType.LAZY)        
+    private byte[] profileImage;
     
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Document> documents;
        
     public User() {}
     
-    public User(String name, String password) {
-        this.login = name;
+    public User(String login, String password) {
+        this.login = login;
         this.password = password;
     }
 
