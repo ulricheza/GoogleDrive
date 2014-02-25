@@ -38,6 +38,10 @@ public class Document implements Serializable{
 
     public Document() {}
     
+    public Document(String title){
+        this.title = title;
+    }
+    
     public Document(String title, User owner, Date lastModified, String content) {
         this.title = title;
         this.owner = owner;

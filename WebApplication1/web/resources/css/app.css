@@ -9,12 +9,7 @@ and open the template in the editor.
 */
 
 body {
-    background-color: gray;
     margin: 50px;
-}
-
-a {
-    color: beige;
 }
 
 .panelGrid {
@@ -22,24 +17,19 @@ a {
 }
 
 .ui-widget-content {
-    border-style: none;
+ /*   border-style: none;
     border: 0px solid ;
-    background: none;
+    background: none;*/
 }
 
 .center-div {
     text-align: center;width: 50%;margin:auto;
 }
 
-.white-text {
-    color: white;
-}
-
 #header {
     border-bottom: 1px solid;
     height: 40px;
     clear: both;
-    color: white;
     margin-bottom: 10px;
 }
 
@@ -59,13 +49,13 @@ a {
 }
 
 .ui-menu .ui-menu-list .ui-menuitem {
-
+/*
     border: 1px solid !important;
-    background-color: white;
+    background-color: white;*/
 }
 
 .ui-menu .ui-menuitem-link {
-    width: 94% !important;
+   /* width: 94% !important;*/
 }
 
 #form-buttons button {    
@@ -83,4 +73,9 @@ a {
 
 .left-align {
     text-align: left;
+}
+
+div[id="growl_container"] {
+    left: 40%;
+    text-align: center;    
 }

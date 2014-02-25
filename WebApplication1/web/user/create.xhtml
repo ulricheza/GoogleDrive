@@ -5,36 +5,31 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>#{documentController.document.title}</title>
+        <title>Create document</title>
         <h:outputStylesheet name="app.css" library="css"  />
-        <h:outputScript library="primefaces" name="jquery/jquery.js" />
     </h:head>
     <h:body>       
-        <f:view>
-            <f:metadata id="gf">
-                <f:viewParam id="id" name="id" validator="#{documentController.validate}" />
-            </f:metadata>
-        
         <h:form id="form"> 
             
-            <div class="center-div">
-                <p:messages  />
-            </div>
+            <h1>Create document</h1>                                  
+            <p:messages  />           
+            <div class="horizontal-line" /><br/>
             
             <h:panelGrid columns="2" >
-                <h:outputLabel style="color: white" value="Title : " for="title" />
+                <h:outputLabel value="Title : " for="title" />
                 <h:inputText id="title" value="#{documentController.document.title}" required="true" />
             </h:panelGrid>
-            <div class="horizontal-line"></div><br/>
+            <div class="horizontal-line" /><br/>
             
-            <h:inputTextarea value="#{documentController.document.content}" />
-            
+            <div style="border: 1px solid">
+                <p:editor value="#{documentController.document.content}" />
+            </div>            
             <div class="horizontal-line" />
+            
             <div id="form-buttons">
-                <p:commandButton value="Save" update="form"
-                                 action="#{documentController.saveModifications}" />
+                <p:commandButton value="Save" update="form" icon="ui-icon-disk"
+                                 action="#{documentController.save}" />
             </div>
         </h:form>    
-        </f:view>
     </h:body>
 </html>

@@ -9,11 +9,11 @@ package controller;
 import entity.Document;
 import entity.User;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import service.DocumentService;
 
 @ManagedBean
@@ -21,13 +21,18 @@ import service.DocumentService;
 public class HomePageController implements Serializable {
     
     public static final String EDIT_PAGE = "/user/edit?faces-redirect=true";
+    public static final String CREATE_PAGE = "/user/edit";
     
+    private Document selectedDocument;
+
     @EJB
-    private DocumentService documentService;    
+    private DocumentService documentService;  
+   
     
     public String createDocument(){ 
-        Document document = new Document();      
-        document.setTitle("Untitled document");   
+        return "/user/create?faces-redirect=true";
+        /*Document document = new Document();      
+        //document.setTitle("Untitled document");   
         document.setLastModified(new Date());
         
         FacesContext context = FacesContext.getCurrentInstance();
@@ -35,6 +40,14 @@ public class HomePageController implements Serializable {
         document.setOwner(loggedUser);
         
         documentService.create(document);        
-        return EDIT_PAGE + "&id=" + document.getId();
+        return EDIT_PAGE + "&id=" + document.getId();*/
+    }
+    
+    public Document getSelectedDocument() {
+        return selectedDocument;
+    }
+
+    public void setSelectedDocument(Document selectedDocument) {
+        this.selectedDocument = selectedDocument;
     }
 }

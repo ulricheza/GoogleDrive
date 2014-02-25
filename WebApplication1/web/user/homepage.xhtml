@@ -2,15 +2,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     
     <ui:composition template="/WEB-INF/layouts/main.xhtml">
+        <ui:param name="loggedUserDocuments" value="#{sessionScope['loggedUser'].documents}" />
+        
         <ui:define name="title">
             <h:outputText value="#{sessionScope['loggedUser'].login}" />                
         </ui:define>
         
-        <ui:define name="content">
-            Hello <h:outputText value="#{sessionScope['loggedUser'].login}" />                
+        <ui:define name="content">    
+            
+            <h:outputText value="No documents in your dive" rendered="#{empty loggedUserDocuments}" />
+            <p:dataTable var="document" value="#{loggedUserDocuments}" paginator="true" rows="10"
+                         
+                         rendered="#{not empty loggedUserDocuments}">
+                
+                <p:column headerText="Title">                    
+                    #{document.title}
+                </p:column>
+                <p:column headerText="Owner">
+                    #{document.owner.login}
+                </p:column>
+                <p:column headerText="Last Modified">
+                    <h:outputText value="#{document.lastModified}">
+                        <f:convertDateTime pattern="dd.MM.yy, HH:mm" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>        
+            
         </ui:define>
             
         <ui:define name="footer"></ui:define>

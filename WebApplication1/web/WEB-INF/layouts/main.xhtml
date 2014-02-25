@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <h:head>
         <title><ui:insert name="title" ></ui:insert></title>    
@@ -19,26 +20,31 @@
             </div>
 
             <div id="content">
-                <div id="menu" style="display: inline-block;">
-                    <h:form>
-                        <h:commandLink target="blank" value="Create document" style="height: 30px"
-                                       action="#{homePageController.createDocument}"/>  
-                    </h:form>
-                    
-                    <h:form>                    
-                        <p:menu >                            
-                            <p:menuitem value="My Drive" />  
-                            <p:menuitem value="Shared with me" /> 
-                            <p:menuitem value="Starred" /> 
-                            <p:menuitem value="Recent" /> 
-                            <p:menuitem value="All Items" />                             
-                        </p:menu>  
-                    </h:form>
-                </div>                
                 
-                <div style="display: inline-block;vertical-align: top;color: white;">
-                    <ui:insert name="content" ></ui:insert>
-                </div>
+                <h:form> 
+                    
+                    
+                    <div id="menu" style="display: inline-block;width: 21%;">
+                        <p:menu >    
+                            <p:submenu label="Add files"> 
+                                <p:menuitem value="Create document"
+                                    action="#{homePageController.createDocument}" />  
+                            </p:submenu>
+                            <p:submenu label="Drive">  
+                                <p:menuitem value="My Drive" />  
+                                <p:menuitem value="Shared with me" /> 
+                                <p:menuitem value="Starred" /> 
+                                <p:menuitem value="Recent" /> 
+                                <p:menuitem value="All Items" />   
+                            </p:submenu>
+
+                        </p:menu>  
+                   </div>
+                    
+                    <div  style="display: inline-block;vertical-align: top;width: 73%;">
+                        <ui:insert name="content" ></ui:insert>
+                    </div>
+                </h:form>
             </div>
 
             <div id="footer">
