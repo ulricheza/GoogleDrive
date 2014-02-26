@@ -46,12 +46,29 @@ public class User implements Serializable{
     
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Document> documents;
+    
+    @OneToMany(mappedBy = "owner")
+    private List<Starred> starreds;
        
     public User() {}
     
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+    
+    public void addToDocuments(Document document) {
+        this.documents.add(document);
+    }    
+    public void removeFromDocuments(Document document){
+        this.documents.remove(document);
+    }
+    
+    public void addToStarreds(Starred starred) {
+        this.starreds.add(starred);
+    }    
+    public void removeFromStarreds(Starred starred){
+        this.starreds.remove(starred);
     }
 
     @Override
@@ -80,29 +97,26 @@ public class User implements Serializable{
     public String getLogin() {
         return login;
     }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     public String getPassword() {
         return password;
     }
-
-    public List<Document> getDocuments() {
-        return documents;
-    }
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
-    
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public List<Document> getDocuments() {
+        return documents;
+    }  
+    public List<Starred> getStarreds() {
+        return starreds;
+    }
+
     public void setProfileImage(byte[] profileImage) {
         this.profileImage = profileImage;
-    }  
-    
-     public void addToDocuments(Document document) {
-        this.documents.add(document);
     }
     
     /*@OneToMany

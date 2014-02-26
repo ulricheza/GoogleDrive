@@ -7,13 +7,15 @@
 package model;
 
 import entity.Document;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.faces.model.ListDataModel;
 import org.primefaces.model.SelectableDataModel;
 
-public class DocumentDataModel extends ListDataModel<Document> implements SelectableDataModel<Document>{
+public class DocumentDataModel extends ListDataModel<Document> 
+                               implements SelectableDataModel<Document>, Serializable{
 
     private final Map<Long,Document> data = new HashMap();
     
