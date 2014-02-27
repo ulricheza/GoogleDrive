@@ -7,39 +7,37 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Remember.DeleteByUser",
-                query = "DELETE FROM Remember WHERE userId = :userId")
+    @NamedQuery(name  = "Remember.DeleteByUser",
+                query = "DELETE FROM Remember r WHERE r.user.id = :user_id")
 })
-public class Remember implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
+public class Remember implements Serializable {    
     @Id
     private String uuid;
     
-    @Column(name = "USER_ID")
-    private Long userId;
+    @OneToOne
+    private User user;
 
     public Remember() {}
     
-    public Remember(String uuid, Long userId){
+    public Remember(String uuid, User user){
         this.uuid = uuid;
-        this.userId = userId;
+        this.user = user;
     }
     
     public String getUuid() {
         return uuid;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }    
 
     @Override

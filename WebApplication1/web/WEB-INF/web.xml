@@ -22,6 +22,6 @@
         <welcome-file>faces/user/homepage.xhtml</welcome-file>
     </welcome-file-list>
     <error-page>
-        <location>/faces/errors/error.xhtml</location>  
-    </error-page> 
+        <location>/faces/errors/error.xhtml</location>
+    </error-page>
 </web-app>

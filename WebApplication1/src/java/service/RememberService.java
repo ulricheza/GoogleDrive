@@ -27,9 +27,9 @@ public class RememberService extends AbstractFacade<Remember> {
         super(Remember.class);
     }
     
-    public void remove (User user){        
+    public void deleteByUser (User user){        
         Query query = em.createNamedQuery("Remember.DeleteByUser");
-        query.setParameter("userId", user.getId());
+        query.setParameter("user_id", user.getId());
         
         query.executeUpdate();
     }

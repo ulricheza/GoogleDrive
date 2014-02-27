@@ -9,28 +9,27 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Users")
 @NamedQueries({
-    @NamedQuery(name = "User.findByLogin",
-                query = "SELECT u FROM User u WHERE u.login=:login")
+    @NamedQuery(name  = "User.findByLogin",
+                query = "SELECT u FROM User u WHERE u.login=:login"),
+    @NamedQuery(name  = "User.findByLoginLike",
+                query = "SELECT u FROM User u WHERE u.login LIKE :login")
 })
-public class User implements Serializable{
-    
+public class User implements Serializable{    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,16 +39,12 @@ public class User implements Serializable{
     
     private String password;
     
-    @Lob
-    @Basic(fetch = FetchType.LAZY)        
-    private byte[] profileImage;
-    
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
     private List<Document> documents;
     
-    @OneToMany(mappedBy = "owner")
-    private List<Starred> starreds;
-       
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Remember remember;
+        
     public User() {}
     
     public User(String login, String password) {
@@ -64,13 +59,6 @@ public class User implements Serializable{
         this.documents.remove(document);
     }
     
-    public void addToStarreds(Starred starred) {
-        this.starreds.add(starred);
-    }    
-    public void removeFromStarreds(Starred starred){
-        this.starreds.remove(starred);
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
@@ -110,18 +98,14 @@ public class User implements Serializable{
 
     public List<Document> getDocuments() {
         return documents;
-    }  
-    public List<Starred> getStarreds() {
-        return starreds;
-    }
-
-    public void setProfileImage(byte[] profileImage) {
-        this.profileImage = profileImage;
+    }    
+    
+    public Remember getRemember(){
+        return remember;
     }
     
-    /*@OneToMany
-    private List<Document> starred;
-    
-    @OneToMany
-    private List<User> friends;*/
+    @Override
+    public String toString(){
+        return login;
+    }
 }

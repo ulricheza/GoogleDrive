@@ -1,0 +1,21 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">    
+    
+    <p:menu>
+        <p:submenu label="Add files">
+            <p:menuitem value="Create document"
+                        action="#{homePageController.createDocument}" />
+        </p:submenu>
+        <p:submenu label="Drive">
+            <p:menuitem value="My Drive" ajax="true" update="form"
+                        action="#{homePageController.displayMyDrive}"/>
+            <p:menuitem value="Shared with me" update="form"
+                        actionListener="#{homePageController.displayShareds}"/>
+            <p:menuitem value="Starred" ajax="true" update="form"
+                        action="#{homePageController.displayStarreds}"/>
+        </p:submenu>
+    </p:menu>    
+    
+</ui:composition>

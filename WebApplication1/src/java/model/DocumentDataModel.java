@@ -36,5 +36,4 @@ public class DocumentDataModel extends ListDataModel<Document>
     public Document getRowData(String rowKey) {
         return data.get(Long.parseLong(rowKey));        
     }
-
 }

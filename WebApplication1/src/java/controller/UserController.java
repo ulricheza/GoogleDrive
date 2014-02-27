@@ -53,14 +53,13 @@ public class UserController implements Serializable{
     
     public String signIn(){
         
-        if (userService.signIn(user))
-        {
+        if (userService.signIn(user)){
             user = userService.findByLogin(user.getLogin());
             FacesContext context = FacesContext.getCurrentInstance();
             
             if(remember){
                 String uuid = UUID.randomUUID().toString();  
-                rememberService.create(new Remember(uuid,user.getId()));
+                rememberService.create(new Remember(uuid,user));
                 context.getExternalContext().addResponseCookie(CookieService.COOKIE_NAME, 
                                                                uuid,cookieProperties);                  
             }
@@ -74,13 +73,12 @@ public class UserController implements Serializable{
         }
     }
     
-    public String logout(){
-        
+    public String logout(){        
         FacesContext context = FacesContext.getCurrentInstance();
         User loggedUser = (User)context.getExternalContext().getSessionMap().get("loggedUser"); 
         
         if(loggedUser != null){
-            rememberService.remove(loggedUser);
+            rememberService.deleteByUser(loggedUser);
             
             cookieProperties.put("maxAge", 0);        
             context.getExternalContext().addResponseCookie(CookieService.COOKIE_NAME,
@@ -91,8 +89,8 @@ public class UserController implements Serializable{
         return LOGIN_PAGE;
     }
     
-    public String register() {
-               
+    public String register() {  
+        
         if (!pwdConfirmation.equals(user.getPassword())){            
             sendError("Passwords don't match");            
             return null;
@@ -110,7 +108,6 @@ public class UserController implements Serializable{
     }
     
     private void sendError (String summary){        
-        
         FacesMessage msg = new FacesMessage(summary);
         msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
@@ -125,7 +122,6 @@ public class UserController implements Serializable{
     public String getPwdConfirmation() {
         return pwdConfirmation;
     }
-
     public void setPwdConfirmation(String pwdConfirmation) {
         this.pwdConfirmation = pwdConfirmation;
     }
@@ -133,7 +129,6 @@ public class UserController implements Serializable{
     public boolean isRemember() {
         return remember;
     }
-
     public void setRemember(boolean remember) {
         this.remember = remember;
     }

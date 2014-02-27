@@ -27,24 +27,26 @@ public class UserService extends AbstractFacade<User> {
         super(User.class);
     }
     
-    public boolean signIn(User user){
+    public boolean signIn(User user){        
+        User registeredUser = findByLogin(user.getLogin());  
         
-        User registeredUser = findByLogin(user.getLogin());        
-        if (registeredUser == null)
-            return false;
-        else
-            return registeredUser.getPassword().equals(user.getPassword()); 
+        if (registeredUser == null) return false;
+        return registeredUser.getPassword().equals(user.getPassword()); 
     }
     
-    public User findByLogin(String login){
-        
+    public User findByLogin(String login){        
         TypedQuery<User> query = em.createNamedQuery("User.findByLogin", User.class);
         query.setParameter("login", login);        
         List<User> results = query.getResultList();
         
-        if (results.isEmpty())
-            return null;
-        else
-            return results.get(0);        
+        if (results.isEmpty()) return null;
+        return results.get(0);        
+    }
+
+    public List<User> findByLoginLike(String login) {
+        TypedQuery<User> query = em.createNamedQuery("User.findByLoginLike", User.class);
+        query.setParameter("login", "%" + login + "%");
+        
+        return query.getResultList();
     }
 }

@@ -76,7 +76,7 @@ public class DocumentController implements Serializable{
         
         FacesMessage msg = new FacesMessage();        
         try{
-            documentService.create(document); 
+            documentService.create(document);            
             loggedUser.addToDocuments(document);
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             msg.setSummary("Document created");
@@ -86,7 +86,7 @@ public class DocumentController implements Serializable{
             msg.setSummary("An error occured. The document couldn't be created.");
         }
         finally{
-            context.addMessage(null, msg);
+            context.addMessage("globalKey", msg);
         }
         
         return "/user/homepage?faces-redirect=true";

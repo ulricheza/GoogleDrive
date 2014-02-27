@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <h:form id="dialogForm">
+        <p:dialog header="Share" widgetVar="shareDialog" resizable="false"
+                  modal="true" closeOnEscape="true" showEffect="fade" hideEffect="drop">
+            
+            <h3>Invite people : </h3>
+            <p:autoComplete value="#{homePageController.shareList}" forceSelection="true"
+                            converter="userConverter" required="true" multiple="true"
+                            requiredMessage="Please choose a valid user login"
+                            completeMethod="#{homePageController.complete}" />
+            
+            <p:commandButton value="Done" update="sharingErrors" style="margin-top:10px"
+                             actionListener="#{homePageController.share}"
+                             oncomplete="handleShareRequest(xhr, status, args)"/>
+            
+            <p:messages id="sharingErrors" redisplay="false"/>
+        </p:dialog>
+    </h:form>
+    
+    <script type="text/javascript"> 
+        function handleShareRequest(xhr, status, args) {
+            if(args.validationFailed || !args.success) {
+                PF('shareDialog').jq.effect("shake", { times:5 }, 100);
+            }   
+            else {  
+                PF('shareDialog').hide();
+            }  
+        }
+    </script>   
+</ui:composition>

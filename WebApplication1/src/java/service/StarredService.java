@@ -6,6 +6,7 @@
 
 package service;
 
+import entity.Document;
 import entity.Starred;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -27,15 +28,20 @@ public class StarredService extends AbstractFacade<Starred> {
         super(Starred.class);
     }
 
-    public Starred find(Long ownerId, Long documentId) {
+    public List<Document> findDocumentsByOwner(Long ownerId) {
+        TypedQuery<Document> query = em.createNamedQuery("Starred.findDocumentsByOwner", Document.class);
+        query.setParameter("owner_id", ownerId);
+        
+        return query.getResultList();   
+    }
+    
+    public Starred findByOwnerAndDocument(Long ownerId, Long documentId) {
         TypedQuery<Starred> query = em.createNamedQuery("Starred.findByOwnerAndDocument", Starred.class);
         query.setParameter("owner_id", ownerId)
              .setParameter("document_id", documentId);
         
         List<Starred> results = query.getResultList();        
-        if (results.isEmpty())
-            return null;
-        else
-            return results.get(0);        
+        if (results.isEmpty()) return null;
+        return results.get(0);        
     }
 }

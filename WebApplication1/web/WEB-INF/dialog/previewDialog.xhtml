@@ -1,0 +1,16 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <p:dialog id="previewDialog" header="Preview" widgetVar="previewDialog" resizable="false"
+              modal="true" closeOnEscape="true" showEffect="fade" hideEffect="drop" width="50%"> 
+        
+        <div style="height:250px;overflow:auto;">
+            <h:outputText escape="false" value="#{homePageController.selectedDocument.content}"/>
+        </div>  
+    </p:dialog>
+               
+</ui:composition>

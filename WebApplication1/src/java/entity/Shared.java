@@ -17,36 +17,38 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name  = "Starred.findByOwnerAndDocument",
-                query = "SELECT s FROM Starred s "
-                      + "WHERE s.owner.id=:owner_id AND s.document.id=:document_id"),
-    @NamedQuery(name  = "Starred.findDocumentsByOwner",
-                query = "SELECT s.document FROM Starred s WHERE s.owner.id=:owner_id")
+    @NamedQuery(name  = "Shared.findUsersByDocument",
+                query = "SELECT s.user FROM Shared s WHERE s.document.id=:document_id"),
+    @NamedQuery(name  = "Shared.findDocumentsByUser",
+                query = "SELECT s.document FROM Shared s WHERE s.user.id=:user_id"),
+    @NamedQuery(name  = "Shared.findByUserAndDocument",
+                query = "SELECT s FROM Shared s "
+                      + "WHERE s.user.id=:user_id AND s.document.id=:document_id")
 })
-public class Starred implements Serializable{
+public class Shared implements Serializable {    
     @EmbeddedId
-    private StarredId id;  
-
+    private SharedId id;   
+    
     @ManyToOne
-    @MapsId("ownerId")
-    private User owner;
+    @MapsId("userId")
+    private User user;
     
     @ManyToOne
     @MapsId("documentId")
     private Document document;
     
-    public Starred() {}
+    public Shared() {}
     
-    public Starred(User owner, Document document){
-        this.owner = owner;
+    public Shared(User user, Document document){
+        this.user = user;
         this.document = document;
+    } 
+    
+    public User getUser() {
+        return user;
     }
-
-    public User getOwner() {
-        return owner;
-    }
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Document getDocument() {
@@ -55,11 +57,11 @@ public class Starred implements Serializable{
     public void setDocument(Document document) {
         this.document = document;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -71,8 +73,13 @@ public class Starred implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Starred other = (Starred) obj;
+        final Shared other = (Shared) obj;
         return Objects.equals(this.document.getId(), other.document.getId()) &&
-               Objects.equals(this.owner.getId(), other.owner.getId());
-    }    
+               Objects.equals(this.user.getId(), other.user.getId());
+    }
+    
+    @Override
+    public String toString() {
+        return "entity.Shared[ id=" + id + " ]";
+    }
 }

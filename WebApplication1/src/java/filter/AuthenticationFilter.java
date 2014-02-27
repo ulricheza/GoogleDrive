@@ -25,12 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import service.CookieService;
 import service.RememberService;
-import service.UserService;
 
 @WebFilter("/faces/auth/*")
 public class AuthenticationFilter implements Filter{
     RememberService rememberService = lookupRememberServiceBean();
-    UserService userService = lookupUserServiceBean();
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -46,7 +44,7 @@ public class AuthenticationFilter implements Filter{
             
             if (uuid != null) {
                 Remember remember = rememberService.find(uuid);
-                if (remember != null) user = userService.find(remember.getUserId());
+                if (remember != null) user = remember.getUser();
 
                 if (user != null) {
                     
@@ -54,6 +52,7 @@ public class AuthenticationFilter implements Filter{
                     CookieService.addCookie(res, CookieService.COOKIE_NAME, 
                                             uuid, CookieService.COOKIE_MAX_AGE); // Extends age.
                 } else {
+                    if (remember != null) rememberService.remove(remember);
                     CookieService.removeCookie(res, CookieService.COOKIE_NAME);
                 }
             }
@@ -64,6 +63,7 @@ public class AuthenticationFilter implements Filter{
             res.sendRedirect(req.getContextPath() + "/faces/user/homepage.xhtml");
         }
         else{
+            // User is not logged in, so just continue request.
             chain.doFilter(request, response);
         }
     }
@@ -75,16 +75,6 @@ public class AuthenticationFilter implements Filter{
         try {
             Context c = new InitialContext();
             return (RememberService) c.lookup("java:global/WebApplication1/RememberService!service.RememberService");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
-    private UserService lookupUserServiceBean() {
-        try {
-            Context c = new InitialContext();
-            return (UserService) c.lookup("java:global/WebApplication1/UserService!service.UserService");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
