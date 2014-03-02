@@ -23,6 +23,11 @@ import javax.persistence.NamedQuery;
                 query = "SELECT s.document FROM Shared s WHERE s.user.id=:user_id"),
     @NamedQuery(name  = "Shared.findByUserAndDocument",
                 query = "SELECT s FROM Shared s "
+                      + "WHERE s.user.id=:user_id AND s.document.id=:document_id"),
+    @NamedQuery(name  = "Shared.deleteByDocument",
+                query = "DELETE FROM Shared s WHERE s.document.id=:document_id"),
+    @NamedQuery(name  = "Shared.deleteByUserAndDocument",
+                query = "DELETE FROM Shared s "
                       + "WHERE s.user.id=:user_id AND s.document.id=:document_id")
 })
 public class Shared implements Serializable {    

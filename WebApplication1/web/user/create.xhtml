@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Create document</title>
         <h:outputStylesheet name="app.css" library="css"  />
@@ -11,24 +10,25 @@
     <h:body>       
         <h:form id="form"> 
             
-            <h1>Create document</h1>                                  
+            <h1>Create document</h1>            
             <p:messages  />           
             <div class="horizontal-line" /><br/>
             
             <h:panelGrid columns="2" >
                 <h:outputLabel value="Title : " for="title" />
-                <h:inputText id="title" value="#{documentController.document.title}" required="true" />
+                <h:inputText id="title" value="#{createController.document.title}" required="true" 
+                             requiredMessage="Please enter a title"/>
             </h:panelGrid>
             <div class="horizontal-line" /><br/>
             
-            <div >
-                <p:editor value="#{documentController.document.content}" style="width: 70%"  />
+            <div>
+                <p:editor value="#{createController.document.content}" style="width: 70%"  />
             </div>            
             <div class="horizontal-line" />
             
             <div id="form-buttons">
                 <p:commandButton value="Save" update="form" icon="ui-icon-disk"
-                                 action="#{documentController.save}" />
+                         action="#{createController.save}" />  
             </div>
         </h:form>    
     </h:body>

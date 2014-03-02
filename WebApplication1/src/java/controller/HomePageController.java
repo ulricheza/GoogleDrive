@@ -109,10 +109,51 @@ public class HomePageController implements Serializable {
         }
         finally{            
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("globalKey", msg);    
+            context.addMessage(null, msg);    
             
             if (selectedMenu.equals(MENU.STARRED)) refresh();
         }
+    }
+    
+    public void delete(){       
+        FacesMessage msg = new FacesMessage();
+        
+        try{
+            for (Document d : getSelectedDocuments()){                
+                loggedUser.removeFromDocuments(d);
+                
+                if (d.getOwner().equals(loggedUser)){                    
+                    sharedService.deleteByDocument(d.getId());
+                    starredService.deleteByDocument(d.getId());
+                    documentService.remove(d);
+                }
+                else{
+                    sharedService.deleteByUserAndDocument(loggedUser.getId(),d.getId());
+                    starredService.deleteByOwnerAndDocument(loggedUser.getId(),d.getId()); 
+                }
+                
+                msg.setSummary("Files deleted");
+                msg.setSeverity(FacesMessage.SEVERITY_INFO);
+            }
+        }       
+        catch (Exception e){
+            msg.setSummary("An error occured");
+            msg.setDetail(e.getMessage());
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);            
+        }
+        finally{
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            refresh();
+        }
+    }
+    
+    public String edit(){
+        Document d = getSelectedDocument();
+        if (d == null){
+            return null;
+        }
+        
+        return EDIT_DOCUMENT_PAGE + "&id="+d.getId();        
     }
     
     // <editor-fold defaultstate="collapsed" desc="Share">
@@ -131,12 +172,13 @@ public class HomePageController implements Serializable {
             msg.setSummary("Files shared");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             
-            FacesContext.getCurrentInstance().addMessage("globalKey", msg);  
+            FacesContext.getCurrentInstance().addMessage(null, msg);  
             context.addCallbackParam("success", true);  
         }
         catch (Exception e){
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             msg.setSummary("An error occured. Files couldn't be shared");
+            msg.setDetail(e.getMessage());
             
             FacesContext.getCurrentInstance().addMessage(null, msg);  
             context.addCallbackParam("success", false);            

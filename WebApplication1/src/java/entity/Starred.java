@@ -21,7 +21,12 @@ import javax.persistence.NamedQuery;
                 query = "SELECT s FROM Starred s "
                       + "WHERE s.owner.id=:owner_id AND s.document.id=:document_id"),
     @NamedQuery(name  = "Starred.findDocumentsByOwner",
-                query = "SELECT s.document FROM Starred s WHERE s.owner.id=:owner_id")
+                query = "SELECT s.document FROM Starred s WHERE s.owner.id=:owner_id"),
+    @NamedQuery(name  = "Starred.deleteByDocument",
+                query = "DELETE FROM Starred s WHERE s.document.id=:document_id"),
+    @NamedQuery(name  = "Starred.deleteByOwnerAndDocument",
+                query = "DELETE FROM Starred s "
+                      + "WHERE s.owner.id=:owner_id AND s.document.id=:document_id")
 })
 public class Starred implements Serializable{
     @EmbeddedId

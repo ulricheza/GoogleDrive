@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Stateless
@@ -43,5 +44,20 @@ public class StarredService extends AbstractFacade<Starred> {
         List<Starred> results = query.getResultList();        
         if (results.isEmpty()) return null;
         return results.get(0);        
+    }
+    
+    public void deleteByDocument(Long documentId) {
+        Query query = em.createNamedQuery("Starred.deleteByDocument");
+        query.setParameter("document_id", documentId);
+        
+        query.executeUpdate();
+    }
+    
+    public void deleteByOwnerAndDocument(Long ownerId, Long documentId) {
+        Query query = em.createNamedQuery("Starred.deleteByOwnerAndDocument");
+        query.setParameter("owner_id", ownerId)
+             .setParameter("document_id", documentId);
+        
+        query.executeUpdate();
     }
 }

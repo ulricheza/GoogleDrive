@@ -20,50 +20,20 @@ import service.DocumentService;
 
 @ManagedBean
 @ViewScoped
-public class DocumentController implements Serializable{    
+public class CreateController implements Serializable{    
     
     private final Document document;
     
     @EJB
     private DocumentService documentService;
 
-    public DocumentController() {
+    public CreateController() {
         document = new Document("Untitled document");
     }
-    
-    
-    /*public void validate(FacesContext context, UIComponent component, Object object) throws IOException{
-        boolean notFound = false;
-        String errorMsg;
-        ExternalContext ec = context.getExternalContext();
-        User loggedUser = (User) ec.getSessionMap().get("loggedUser");
-        
-        try{
-            Long id = Long.parseLong(ec.getRequestParameterMap().get("id"));
-            document = documentService.find(id);     
-        }
-        catch (NumberFormatException e){
-            notFound = true;                        
-        }
-        
-        notFound = notFound || (document == null);
-        if (notFound){
-            errorMsg = "Sorry, the file you requested does not exist"; 
-            ec.responseSendError(HttpURLConnection.HTTP_NOT_FOUND,errorMsg);
-        }
-        else if (!document.getOwner().equals(loggedUser)){
-            errorMsg = "You are not allowed to edit this document"; 
-            ec.responseSendError(HttpURLConnection.HTTP_FORBIDDEN,errorMsg);            
-        }        
-    }*/
     
     public Document getDocument() {
         return document;
     }
-    
-   /* public String saveModifications(){
-        return "/user/homepage?faces-redirect=true";
-    }*/
     
     public String save(){
         FacesContext context = FacesContext.getCurrentInstance();
@@ -83,10 +53,11 @@ public class DocumentController implements Serializable{
         }
         catch (Exception e){
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            msg.setDetail(e.toString());
             msg.setSummary("An error occured. The document couldn't be created.");
         }
         finally{
-            context.addMessage("globalKey", msg);
+            context.addMessage(null, msg);
         }
         
         return "/user/homepage?faces-redirect=true";
