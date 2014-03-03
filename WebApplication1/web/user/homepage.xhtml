@@ -18,7 +18,7 @@
             <h:form id="form">
                 
                 <div id="menu" style="display: inline-block;width: 21%;">
-                    <h:outputText value="> #{homePageController.currentMenu}" />
+                    <h:outputText style="font-size: 1.5em" value="> #{homePageController.currentMenu}" />
                     <ui:include src="/WEB-INF/shared/sideMenu.xhtml" />   
                 </div>
                 
@@ -61,7 +61,10 @@
             </h:form> 
             
             <ui:include src="/WEB-INF/dialog/shareDialog.xhtml" />
+            <ui:include src="/WEB-INF/dialog/uploadDialog.xhtml" />
         </ui:define>
+        
+        
             
         <ui:define name="footer"></ui:define>
     </ui:composition>

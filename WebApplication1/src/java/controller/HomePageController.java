@@ -10,8 +10,16 @@ import entity.Document;
 import entity.Shared;
 import entity.Starred;
 import entity.User;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,6 +28,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.DocumentDataModel;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import service.DocumentService;
 import service.SharedService;
 import service.StarredService;
@@ -61,6 +73,40 @@ public class HomePageController implements Serializable {
     public String createDocument(){ 
         return CREATE_DOCUMENT_PAGE;
     }
+    
+    public void handleFileUpload(FileUploadEvent event) { 
+        FacesMessage msg = null;
+        try {
+            UploadedFile file = event.getFile();
+            String fileName = file.getFileName();
+            InputStream stream = file.getInputstream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            StringBuilder content = new StringBuilder();
+            
+            String line;   
+            while (( line = reader.readLine()) != null){
+                content.append(line);
+                content.append("<br/>");
+            }
+            
+            Document d = new Document(fileName.substring(0,fileName.lastIndexOf(".")));
+            d.setContent(content.toString());
+            d.setOwner(loggedUser);
+            d.setLastModified(new Date());
+            
+            documentService.create(d);
+            loggedUser.addToDocuments(d);
+            
+            msg = new FacesMessage("Succesful", fileName + " is uploaded."); 
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
+            msg = new FacesMessage("Failure", ex.toString());
+        }
+        finally{
+            FacesContext.getCurrentInstance().addMessage(null, msg);             
+        }
+    } 
     
     public void displayMyDrive(){
         selectedMenu = MENU.MY_DRIVE;
@@ -196,6 +242,13 @@ public class HomePageController implements Serializable {
         this.shareList = shareList;
     }   
     // </editor-fold>
+    
+    public StreamedContent getFile(){
+        Document d = getSelectedDocument();
+        InputStream stream = new ByteArrayInputStream(d.getContent().getBytes()); 
+        
+        return new DefaultStreamedContent(stream, "text/html", d.getTitle());
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="DataTable model">
@@ -237,7 +290,7 @@ public class HomePageController implements Serializable {
             case MY_DRIVE:
                 return "My Drive";
             case SHARED_WITH_ME:
-                return "Shared";
+                return "Shared with me";
             case STARRED:
                 return "Starred";
             default:

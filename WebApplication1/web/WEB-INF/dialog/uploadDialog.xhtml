@@ -1,0 +1,24 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <p:dialog header="Upload" widgetVar="uploadDialog" resizable="false"
+              modal="true" closeOnEscape="true" showEffect="fade" hideEffect="drop" width="50%">
+        
+        <div style="height:250px;overflow:auto;">
+            <h:form>                
+                <p:fileUpload  mode="advanced" dragDropSupport="false"
+                               multiple="true" update="messages" sizeLimit="100000" 
+                               fileLimit="3" allowTypes="/(\.|\/)(htm?l|txt)$/" 
+                               fileUploadListener="#{homePageController.handleFileUpload}"
+                               oncomplete="location.reload(true)"/>
+                
+                <p:growl id="messages" showDetail="true" redisplay="false"/>
+            </h:form>
+        </div>
+        
+    </p:dialog>               
+</ui:composition>
