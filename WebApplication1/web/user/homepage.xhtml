@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:p="http://primefaces.org/ui">
     
     <ui:composition template="/WEB-INF/layouts/main.xhtml">
@@ -29,8 +30,10 @@
                         <ui:include src="/WEB-INF/shared/toolbar.xhtml" />  
                     </p:panel>
                     
+                  
                     <p:dataTable id="dataTable" var="document" value="#{homePageController.documentsModel}" 
                                  paginator="true" rows="10" rendered="#{userHasDocuments}"
+                                 editable="true" editMode="cell" 
                                  selection="#{homePageController.selectedDocuments}" >
                     
                         <p:ajax event="toggleSelect" update="@form:toolbar" />     
@@ -38,11 +41,20 @@
                         <p:ajax event="rowUnselectCheckbox" update="@form:previewDialog @form:toolbar" /> 
                         <p:ajax event="rowSelect" update="@form:previewDialog @form:toolbar"  />
                         <p:ajax event="rowUnselect" update="@form:previewDialog @form:toolbar" />
+                        <p:ajax event="cellEdit" listener="#{homePageController.onCellEdit}" />
                         
                         <p:column selectionMode="multiple" style="width:2%"  />
                         
                         <p:column sortBy="title" headerText="Title" style="width:33%">
-                            #{document.title}
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{document.title}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="titleInput" value="#{document.title}" style="width:96%"/>
+                                </f:facet>  
+                            </p:cellEditor>
+                            
                         </p:column>
                         
                         <p:column sortBy="#{document.owner.login}" headerText="Owner" style="width:32%">
@@ -60,12 +72,11 @@
                 </div>
             </h:form> 
             
+            <ui:include src="/WEB-INF/dialog/confirmDialog.xhtml" />
             <ui:include src="/WEB-INF/dialog/shareDialog.xhtml" />
             <ui:include src="/WEB-INF/dialog/uploadDialog.xhtml" />
         </ui:define>
         
-        
-            
         <ui:define name="footer"></ui:define>
     </ui:composition>
 </html>

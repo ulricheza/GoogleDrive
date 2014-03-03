@@ -16,7 +16,9 @@
             
             <p:commandButton type="button" title="Move to" icon="ui-icon-folder-collapsed" />
             <p:commandButton title="Delete" icon="ui-icon-trash" update="form"
-                             actionListener="#{homePageController.delete}"/>
+                             actionListener="#{homePageController.delete}">
+                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />  
+            </p:commandButton>
             
             <p:separator />  
             

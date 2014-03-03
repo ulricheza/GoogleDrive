@@ -28,6 +28,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.DocumentDataModel;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -267,6 +268,28 @@ public class HomePageController implements Serializable {
         if (selectedDocuments == null) return null;        
         if (selectedDocuments.length != 1) return null;
         return selectedDocuments[0];
+    }
+    
+    public void onCellEdit(CellEditEvent event) {  
+        Object oldValue = event.getOldValue();  
+        Object newValue = event.getNewValue();
+        
+        if(newValue != null && !newValue.equals(oldValue)) {
+            List<Document> docs = (List<Document>) documentsModel.getWrappedData();  
+            Document d = docs.get(event.getRowIndex());
+            
+            d.setTitle((String) newValue);
+            d.setLastModified(new Date());            
+            
+            documentService.edit(d);            
+            loggedUser.removeFromDocuments(d);
+            loggedUser.addToDocuments(d);
+            
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);  
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            
+            refresh();
+        }  
     }
     // </editor-fold>
     
