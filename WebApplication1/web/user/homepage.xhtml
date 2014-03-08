@@ -14,10 +14,9 @@
         </ui:define>
         
         <ui:define name="content"> 
-            <ui:param name="userHasDocuments" value="#{not empty sessionScope['loggedUser'].documents}" />
+            <ui:param name="userHasDocuments" value="#{homePageController.documentsModel.rowCount gt 0}" />
             
-            <h:form id="form">
-                
+            <h:form id="form">                         
                 <div id="menu" style="display: inline-block;width: 21%;">
                     <h:outputText style="font-size: 1.5em" value="> #{homePageController.currentMenu}" />
                     <ui:include src="/WEB-INF/shared/sideMenu.xhtml" />   
@@ -28,12 +27,11 @@
                     <p:panel id="toolbar" styleClass="toolbar"
                              visible="#{not empty homePageController.selectedDocuments}">
                         <ui:include src="/WEB-INF/shared/toolbar.xhtml" />  
-                    </p:panel>
-                    
+                    </p:panel>                    
                   
                     <p:dataTable id="dataTable" var="document" value="#{homePageController.documentsModel}" 
                                  paginator="true" rows="10" rendered="#{userHasDocuments}"
-                                 editable="true" editMode="cell" 
+                                 editable="true" editMode="cell"
                                  selection="#{homePageController.selectedDocuments}" >
                     
                         <p:ajax event="toggleSelect" update="@form:toolbar" />     
@@ -41,20 +39,13 @@
                         <p:ajax event="rowUnselectCheckbox" update="@form:previewDialog @form:toolbar" /> 
                         <p:ajax event="rowSelect" update="@form:previewDialog @form:toolbar"  />
                         <p:ajax event="rowUnselect" update="@form:previewDialog @form:toolbar" />
-                        <p:ajax event="cellEdit" listener="#{homePageController.onCellEdit}" />
+                     <!--   <p:ajax event="cellEdit" update="@form:dataTable:message"
+                                listener="#{homePageController.onCellEdit}" /> -->
                         
                         <p:column selectionMode="multiple" style="width:2%"  />
                         
                         <p:column sortBy="title" headerText="Title" style="width:33%">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{document.title}" />
-                                </f:facet>
-                                <f:facet name="input">
-                                    <p:inputText id="titleInput" value="#{document.title}" style="width:96%"/>
-                                </f:facet>  
-                            </p:cellEditor>
-                            
+                            <h:outputText value="#{document.title}" />                         
                         </p:column>
                         
                         <p:column sortBy="#{document.owner.login}" headerText="Owner" style="width:32%">
@@ -69,12 +60,13 @@
                     </p:dataTable>
                 
                     <ui:include src="/WEB-INF/dialog/previewDialog.xhtml" />  
+                    <ui:include src="/WEB-INF/dialog/confirmDialog.xhtml" />
                 </div>
-            </h:form> 
+            </h:form>
             
-            <ui:include src="/WEB-INF/dialog/confirmDialog.xhtml" />
             <ui:include src="/WEB-INF/dialog/shareDialog.xhtml" />
             <ui:include src="/WEB-INF/dialog/uploadDialog.xhtml" />
+            
         </ui:define>
         
         <ui:define name="footer"></ui:define>

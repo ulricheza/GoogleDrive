@@ -64,6 +64,11 @@ div[id="growl_container"] {
     text-align: center;    
 }
 
+div[id="messages_container"] {
+    left: 40%;
+    text-align: center;    
+}
+
 .toolbar {
     padding: 0px !important;
 }

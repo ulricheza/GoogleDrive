@@ -7,9 +7,11 @@
 package service;
 
 import entity.Document;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Stateless
 public class DocumentService extends AbstractFacade<Document> {
@@ -23,5 +25,12 @@ public class DocumentService extends AbstractFacade<Document> {
 
     public DocumentService() {
         super(Document.class);
+    }
+
+    public List<Document> findByOwner(Long ownerId) {
+        TypedQuery<Document> query = em.createNamedQuery("Document.findByOwner", Document.class);
+        query.setParameter("owner_id", ownerId);
+        
+        return query.getResultList();
     }
 }

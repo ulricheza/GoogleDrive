@@ -22,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -96,7 +98,7 @@ public class HomePageController implements Serializable {
             d.setLastModified(new Date());
             
             documentService.create(d);
-            loggedUser.addToDocuments(d);
+            //loggedUser.addToDocuments(d);
             
             msg = new FacesMessage("Succesful", fileName + " is uploaded."); 
         } 
@@ -113,14 +115,14 @@ public class HomePageController implements Serializable {
         selectedMenu = MENU.MY_DRIVE;
         
         selectedDocuments = null;
-        documentsModel = new DocumentDataModel(loggedUser.getDocuments());
+        documentsModel = new DocumentDataModel(documentService.findByOwner(loggedUser.getId()));
     }
     
     public void displayShareds(){
         selectedMenu = MENU.SHARED_WITH_ME;
         
         selectedDocuments = null;
-        documentsModel = new DocumentDataModel(sharedService.findDocumentsByUser(loggedUser.getId()));        
+        documentsModel = new DocumentDataModel(sharedService.findDocumentsByUser(loggedUser.getId())); 
     }
     
     public void displayStarreds(){
@@ -167,7 +169,8 @@ public class HomePageController implements Serializable {
         
         try{
             for (Document d : getSelectedDocuments()){                
-                loggedUser.removeFromDocuments(d);
+               // loggedUser.removeFromDocuments(d);
+               // userService.edit(loggedUser);
                 
                 if (d.getOwner().equals(loggedUser)){                    
                     sharedService.deleteByDocument(d.getId());
@@ -209,6 +212,7 @@ public class HomePageController implements Serializable {
         FacesMessage msg = new FacesMessage();
         
         try{
+            shareList.remove(loggedUser);
             for (User u : shareList){
                 for (Document d : selectedDocuments){
                     Shared s = sharedService.findByUserAndDocument(u.getId(),d.getId());
@@ -216,7 +220,7 @@ public class HomePageController implements Serializable {
                 }
             }
             
-            msg.setSummary("Files shared");
+            msg.setSummary("File(s) shared");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             
             FacesContext.getCurrentInstance().addMessage(null, msg);  
@@ -224,7 +228,7 @@ public class HomePageController implements Serializable {
         }
         catch (Exception e){
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            msg.setSummary("An error occured. Files couldn't be shared");
+            msg.setSummary("An error occured. File(s) couldn't be shared");
             msg.setDetail(e.getMessage());
             
             FacesContext.getCurrentInstance().addMessage(null, msg);  
@@ -270,27 +274,28 @@ public class HomePageController implements Serializable {
         return selectedDocuments[0];
     }
     
-    public void onCellEdit(CellEditEvent event) {  
-        Object oldValue = event.getOldValue();  
-        Object newValue = event.getNewValue();
+    /*public void onCellEdit(CellEditEvent event) {  
+        String oldValue = (String) event.getOldValue();  
+        String newValue = (String) event.getNewValue();
         
-        if(newValue != null && !newValue.equals(oldValue)) {
+        if(!newValue.isEmpty() && !newValue.equals(oldValue)) {
             List<Document> docs = (List<Document>) documentsModel.getWrappedData();  
             Document d = docs.get(event.getRowIndex());
             
-            d.setTitle((String) newValue);
+            d.setTitle(newValue);
             d.setLastModified(new Date());            
             
-            documentService.edit(d);            
-            loggedUser.removeFromDocuments(d);
-            loggedUser.addToDocuments(d);
+            documentService.edit(d);      
+            User owner = d.getOwner();
+            owner.removeFromDocuments(d);
+            owner.addToDocuments(d);
             
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);  
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            
-            refresh();
         }  
-    }
+        
+        //refresh();
+    }*/
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Ajax refresh">

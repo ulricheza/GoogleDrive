@@ -7,7 +7,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,8 +37,8 @@ public class User implements Serializable{
     
     private String password;
     
-    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
-    private List<Document> documents;
+    /*@OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
+    private List<Document> documents;*/
     
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Remember remember;
@@ -52,12 +50,23 @@ public class User implements Serializable{
         this.password = password;
     }
     
-    public void addToDocuments(Document document) {
+   /* public void addToDocuments(Document document) {
+       // System.out.println("Document "+document.getId() + " added");
         this.documents.add(document);
     }    
     public void removeFromDocuments(Document document){
+        
         this.documents.remove(document);
-    }
+        
+        /*System.out.println("Input : "+ document.getId() + "\n");
+        
+        System.out.println("Previous");
+        for( Document d : documents) System.out.println(d.getId());
+        
+        
+        System.out.println("\n After");
+        for( Document d : documents) System.out.println(d.getId());
+    }*/
     
     @Override
     public int hashCode() {
@@ -96,9 +105,9 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public List<Document> getDocuments() {
+   /* public List<Document> getDocuments() {
         return documents;
-    }    
+    } */   
     
     public Remember getRemember(){
         return remember;

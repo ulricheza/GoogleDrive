@@ -21,6 +21,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import service.DocumentService;
 import service.SharedService;
+import service.UserService;
 
 @ManagedBean
 @ViewScoped
@@ -31,6 +32,8 @@ public class EditController implements Serializable{
     
     @EJB
     private DocumentService documentService;
+    @EJB
+    private UserService userService;
     @EJB
     private SharedService sharedService;
    
@@ -83,9 +86,15 @@ public class EditController implements Serializable{
         try{
             document.setLastModified(new Date());
             documentService.edit(document);
+           // userService.edit(document.getOwner());
             
-            loggedUser.removeFromDocuments(document);
-            loggedUser.addToDocuments(document);
+           /* User owner = userService.find(document.getOwner().getId());
+            //System.out.println("Owner = " + owner.getLogin() + " " + owner.getId());
+            System.out.println(owner.getDocuments().size());
+            System.out.println(loggedUser.getDocuments().size());
+          //  owner.removeFromDocuments(document);
+          // owner.addToDocuments(document);
+           userService.edit(owner);*/
             
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             msg.setSummary("Document updated");

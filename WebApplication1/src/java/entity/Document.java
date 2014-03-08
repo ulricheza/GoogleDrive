@@ -9,19 +9,24 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Documents")
+@NamedQueries({
+    @NamedQuery(name  = "Document.findByOwner",
+                query = "SELECT d FROM Document d WHERE d.owner.id=:owner_id"),
+})
 public class Document implements Serializable{
     
     @Id
@@ -30,7 +35,7 @@ public class Document implements Serializable{
     
     private String title;
     
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private User owner;
     
     @Temporal(TemporalType.TIMESTAMP)
