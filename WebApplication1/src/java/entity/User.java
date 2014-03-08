@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import service.EncryptionService;
 
 @Entity
 @Table(name = "Users")
@@ -116,5 +117,9 @@ public class User implements Serializable{
     @Override
     public String toString(){
         return login;
+    }
+
+    public void encodePassword() {
+        password = EncryptionService.encrypt(password);
     }
 }

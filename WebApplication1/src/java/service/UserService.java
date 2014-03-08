@@ -31,7 +31,7 @@ public class UserService extends AbstractFacade<User> {
         User registeredUser = findByLogin(user.getLogin());  
         
         if (registeredUser == null) return false;
-        return registeredUser.getPassword().equals(user.getPassword()); 
+        return registeredUser.getPassword().equals(EncryptionService.encrypt(user.getPassword())); 
     }
     
     public User findByLogin(String login){        

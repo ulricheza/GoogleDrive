@@ -51,9 +51,12 @@ public class UserController implements Serializable{
         cookieProperties.put("maxAge", CookieService.COOKIE_MAX_AGE);
     }
     
-    public String signIn(){
-        
-        if (userService.signIn(user)){
+    public String signIn(){        
+        return redirectAfterLogin(userService.signIn(user));        
+    }
+    
+    public String redirectAfterLogin(boolean status){
+        if (status){
             user = userService.findByLogin(user.getLogin());
             FacesContext context = FacesContext.getCurrentInstance();
             
@@ -100,10 +103,11 @@ public class UserController implements Serializable{
             return null;            
         }        
         else {
+            user.encodePassword();
             userService.create(user);
             remember = true;
             
-            return signIn();
+            return redirectAfterLogin(true);
         }
     }
     
