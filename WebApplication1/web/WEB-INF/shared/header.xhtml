@@ -15,10 +15,11 @@
             <h1>Google Drive</h1>
                     
             <div class="buttons">
-                <h:form>
-                    <h:commandButton value="logout" action="#{userController.logout}"/>  
+                <h:form id="logout">
+                    <h:commandButton value="#{msg['logout.label']}" action="#{userController.logout}"/>  
                 </h:form>
-            </div>            
+            </div>
+            
         </ui:composition>
     </h:body>
 </html>

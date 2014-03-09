@@ -8,7 +8,11 @@
     
     <ui:composition template="/WEB-INF/layouts/basic.xhtml">
         <ui:define name="title">
-            Register            
+            #{msg['register']}            
+        </ui:define>
+        
+        <ui:define name="lang">
+            <ui:include src="/WEB-INF/shared/langCombobox.xhtml" />
         </ui:define>
         
         <ui:define name="content">    
@@ -18,11 +22,13 @@
                     <p:panelGrid styleClass="panelGrid" >
                         <p:row>
                             <p:column>
-                                <h:outputLabel styleClass="white-text" for="login" value="Choose a login : " />
+                                <h:outputLabel styleClass="white-text" for="login" 
+                                               value="#{msg['choose.login.label']} : " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="login" value="#{userController.user.login}" placeholder="login"
-                                             required="true" requiredMessage="Please specify a login">
+                                <p:inputText id="login" value="#{userController.user.login}" 
+                                             placeholder="#{msg['login.placeholder']}"
+                                             required="true" requiredMessage="#{msg['specify.login.required']}">
                                     <f:validator validatorId="loginValidator" />
                                 </p:inputText>
                             </p:column>
@@ -30,11 +36,13 @@
 
                         <p:row>
                             <p:column>
-                                <h:outputLabel styleClass="white-text" for="password" value="Enter a password : " />
+                                <h:outputLabel styleClass="white-text" for="password" 
+                                               value="#{msg['enter.password.label']} : " />
                             </p:column>
                             <p:column>
-                            <p:password id="password" value="#{userController.user.password}" placeholder="password"
-                                        required="true" requiredMessage="Please enter a password" >
+                            <p:password id="password" value="#{userController.user.password}" 
+                                        placeholder="#{msg['password.placeholder']}"
+                                        required="true" requiredMessage="#{msg['enter.password.required']}" >
                                 <f:validator validatorId="passwordValidator" />
                             </p:password>
                             </p:column>
@@ -43,17 +51,17 @@
                         <p:row>
                             <p:column>
                                 <h:outputLabel styleClass="white-text" for="confirm-pwd" 
-                                               value="Confirm your password : " />
+                                               value="#{msg['confirm.password.label']} : " />
                             </p:column>
                             <p:column>
-                                <p:password id="confirm-pwd" value="#{userController.pwdConfirmation}" 
-                                        placeholder="password"/>
+                                <p:password id="confirm-pwd" value="#{userController.pwdConfirmation}"
+                                            placeholder="#{msg['password.placeholder']}"/>
                             </p:column>
                         </p:row>
 
                         <p:row>
                             <p:column colspan="2">
-                                <h:commandButton style="width: 100%;" value="Register"
+                                <h:commandButton style="width: 100%;" value="#{msg['register']}"
                                                  action="#{userController.register}"/> 
                             </p:column>
                         </p:row>

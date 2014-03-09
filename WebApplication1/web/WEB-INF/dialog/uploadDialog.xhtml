@@ -5,15 +5,19 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     
-    <p:dialog header="Upload" widgetVar="uploadDialog" resizable="false"
+    <p:dialog id="upload" header="#{msg['upload']}" widgetVar="uploadDialog" resizable="false"
               modal="true" closeOnEscape="true" showEffect="fade" hideEffect="drop" width="50%">
         
         <div style="height:250px;overflow:auto;">
             <h:form>                
                 <p:fileUpload  mode="advanced" dragDropSupport="false"
-                               multiple="true" update="messages" sizeLimit="100000" 
+                               multiple="true" update="messages" 
                                fileLimit="3" allowTypes="/(\.|\/)(htm?l|txt)$/" 
                                fileUploadListener="#{homePageController.handleFileUpload}"
+                               label="#{msg['browse.label']}" uploadLabel="#{msg['upload.label']}" 
+                               cancelLabel="#{msg['cancel.label']}" 
+                               invalidFileMessage="#{msg['invalid.file.type']}"
+                               fileLimitMessage="#{msg['files.number.exceeded']}"
                                oncomplete="location.reload(true)"/>
                 
                 <p:growl id="messages" showDetail="true" redisplay="false"/>

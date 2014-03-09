@@ -6,12 +6,14 @@
 
 package validator;
 
+import java.util.Locale;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import service.ResourceBundleService;
 
 @FacesValidator
 public class PasswordValidator implements Validator{
@@ -24,7 +26,9 @@ public class PasswordValidator implements Validator{
         if (lth < 5){
           
             FacesMessage msg = new FacesMessage();
-            msg.setSummary("Password length must exceed 4");
+            msg.setSummary(ResourceBundleService.getString("password.toosmall", 
+                           FacesContext.getCurrentInstance().getViewRoot().getLocale(),
+                           new Object[]{4}));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
             throw new ValidatorException(msg);

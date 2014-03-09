@@ -1,21 +1,20 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:h="http://xmlns.jcp.org/jsf/html">    
+    xmlns:p="http://primefaces.org/ui">    
     
     <p:menu>
-        <p:submenu label="Add files">
-            <p:menuitem value="Create document"
+        <p:submenu label="#{msg['add.files']}">
+            <p:menuitem value="#{msg['create.document']}"
                         action="#{homePageController.createDocument}" />
-            <p:menuitem value="Upload document" onclick="PF('uploadDialog').show()" />
+            <p:menuitem value="#{msg['upload.document']}" onclick="PF('uploadDialog').show()" />
            </p:submenu>
         <p:submenu label="Drive">
-            <p:menuitem value="My Drive" ajax="true" update="form"
+            <p:menuitem value="#{msg['my.drive']}" ajax="true" update="form"
                         action="#{homePageController.displayMyDrive}"/>
-            <p:menuitem value="Shared with me" update="form"
+            <p:menuitem value="#{msg['shared.with.me']}" update="form"
                         actionListener="#{homePageController.displayShareds}"/>
-            <p:menuitem value="Starred" ajax="true" update="form"
+            <p:menuitem value="#{msg['starred']}" ajax="true" update="form"
                         action="#{homePageController.displayStarreds}"/>
         </p:submenu>
     </p:menu>    

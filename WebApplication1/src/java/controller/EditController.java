@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,8 +23,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import service.DocumentService;
+import service.ResourceBundleService;
 import service.SharedService;
-import service.UserService;
 
 @ManagedBean
 @ViewScoped
@@ -32,8 +35,6 @@ public class EditController implements Serializable{
     
     @EJB
     private DocumentService documentService;
-    @EJB
-    private UserService userService;
     @EJB
     private SharedService sharedService;
    
@@ -50,22 +51,27 @@ public class EditController implements Serializable{
             document = documentService.find(id);     
         }
         catch (NumberFormatException e){
+            Logger.getLogger(EditController.class.getName()).log(Level.SEVERE, null, e);
+            
             notFound = true;                        
         }
         
         notFound = notFound || (document == null);
         try{
             if (notFound){
-                errorMsg = "Sorry, the file you requested does not exist"; 
+                errorMsg = ResourceBundleService.getString("file.does.not.exist",getLocale(),null);
                 ec.responseSendError(HttpURLConnection.HTTP_NOT_FOUND,errorMsg);
             }
             else if (!document.getOwner().equals(loggedUser) && !isShared(document)) {
-                errorMsg = "You are not allowed to edit this document"; 
+                errorMsg = ResourceBundleService.getString("not.allowed.to.edit",getLocale(),null);
                 ec.responseSendError(HttpURLConnection.HTTP_FORBIDDEN,errorMsg);            
             }   
         }
         catch (IOException e){
-            FacesMessage msg = new FacesMessage("An error occured");
+            Logger.getLogger(EditController.class.getName()).log(Level.SEVERE, null, e);
+            
+            FacesMessage msg = new FacesMessage();
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
             msg.setDetail(e.toString());
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
@@ -86,22 +92,15 @@ public class EditController implements Serializable{
         try{
             document.setLastModified(new Date());
             documentService.edit(document);
-           // userService.edit(document.getOwner());
-            
-           /* User owner = userService.find(document.getOwner().getId());
-            //System.out.println("Owner = " + owner.getLogin() + " " + owner.getId());
-            System.out.println(owner.getDocuments().size());
-            System.out.println(loggedUser.getDocuments().size());
-          //  owner.removeFromDocuments(document);
-          // owner.addToDocuments(document);
-           userService.edit(owner);*/
             
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
-            msg.setSummary("Document updated");
-       }
-       catch (Exception e){
+            msg.setSummary(ResourceBundleService.getString("document.updated",getLocale(),null));
+        }
+        catch (Exception e){
+            Logger.getLogger(EditController.class.getName()).log(Level.SEVERE, null, e);
+           
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            msg.setSummary("An error occured. The document couldn't be updated.");
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
             msg.setDetail(e.toString());
         }
         finally{
@@ -113,5 +112,9 @@ public class EditController implements Serializable{
 
     private boolean isShared(Document document) {
         return sharedService.findDocumentsByUser(loggedUser.getId()).contains(document);                   
+    }
+    
+    private Locale getLocale(){
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
 }

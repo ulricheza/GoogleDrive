@@ -3,9 +3,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     
-    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">  
-        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
-        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
-    </p:confirmDialog>  
-    
+    <p:confirmDialog widgetVar="confirmation" showEffect="fade" hideEffect="drop"
+                     header="#{msg['confirmation']}" message="#{msg['are.you.sure']} ?">
+        
+        <p:commandButton value="#{msg['yes']}" icon="ui-icon-check"
+                         styleClass="ui-confirmdialog-yes" 
+                         actionListener="#{homePageController.delete}" update="form"
+                         oncomplete="confirmation.hide()"/>
+        
+        <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no"
+                         icon="ui-icon-close" onclick="confirmation.hide()"/>
+        
+    </p:confirmDialog>     
 </ui:composition>

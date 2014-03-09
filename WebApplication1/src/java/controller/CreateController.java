@@ -10,6 +10,9 @@ import entity.Document;
 import entity.User;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +20,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import service.DocumentService;
-import service.UserService;
+import service.ResourceBundleService;
 
 @ManagedBean
 @ViewScoped
@@ -27,8 +30,6 @@ public class CreateController implements Serializable{
     
     @EJB
     private DocumentService documentService;
-    @EJB
-    private UserService userService;
 
     public CreateController() {
         document = new Document("Untitled document");
@@ -49,27 +50,26 @@ public class CreateController implements Serializable{
         
         FacesMessage msg = new FacesMessage();        
         try{
-            documentService.create(document);            
-           /* loggedUser.addToDocuments(document);
-            userService.edit(loggedUser);*/
-            
-          /*  User owner = userService.find(document.getOwner().getId());
-            //System.out.println("Owner = " + owner.getLogin() + " " + owner.getId());
-            System.out.println(owner.getDocuments().size());
-            System.out.println(loggedUser.getDocuments().size());*/
+            documentService.create(document);
             
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
-            msg.setSummary("Document created");
+            msg.setSummary(ResourceBundleService.getString("document.created",getLocale(),null));
         }
         catch (Exception e){
+            Logger.getLogger(CreateController.class.getName()).log(Level.SEVERE, null, e);
+            
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
             msg.setDetail(e.toString());
-            msg.setSummary("An error occured. The document couldn't be created.");
         }
         finally{
             context.addMessage(null, msg);
         }
         
         return "/user/homepage?faces-redirect=true";
+    }
+    
+    private Locale getLocale(){
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
 }

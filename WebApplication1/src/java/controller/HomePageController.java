@@ -18,24 +18,23 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.DocumentDataModel;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import service.DocumentService;
+import service.ResourceBundleService;
 import service.SharedService;
 import service.StarredService;
 import service.UserService;
@@ -78,7 +77,6 @@ public class HomePageController implements Serializable {
     }
     
     public void handleFileUpload(FileUploadEvent event) { 
-        FacesMessage msg = null;
         try {
             UploadedFile file = event.getFile();
             String fileName = file.getFileName();
@@ -98,16 +96,9 @@ public class HomePageController implements Serializable {
             d.setLastModified(new Date());
             
             documentService.create(d);
-            //loggedUser.addToDocuments(d);
-            
-            msg = new FacesMessage("Succesful", fileName + " is uploaded."); 
         } 
-        catch (IOException ex) {
-            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
-            msg = new FacesMessage("Failure", ex.toString());
-        }
-        finally{
-            FacesContext.getCurrentInstance().addMessage(null, msg);             
+        catch (IOException e) {
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, e);
         }
     } 
     
@@ -149,11 +140,14 @@ public class HomePageController implements Serializable {
                 }
             }
             
-            msg.setSummary("Starred files updated");
+            msg.setSummary(ResourceBundleService.getString("starred.files.updated",getLocale(),null));
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
         }
-        catch (Exception e){            
-            msg.setSummary("An error occured");
+        catch (Exception e){
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, e);
+            
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
+            msg.setDetail(e.toString());
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);            
         }
         finally{            
@@ -168,10 +162,7 @@ public class HomePageController implements Serializable {
         FacesMessage msg = new FacesMessage();
         
         try{
-            for (Document d : getSelectedDocuments()){                
-               // loggedUser.removeFromDocuments(d);
-               // userService.edit(loggedUser);
-                
+            for (Document d : getSelectedDocuments()){
                 if (d.getOwner().equals(loggedUser)){                    
                     sharedService.deleteByDocument(d.getId());
                     starredService.deleteByDocument(d.getId());
@@ -181,14 +172,17 @@ public class HomePageController implements Serializable {
                     sharedService.deleteByUserAndDocument(loggedUser.getId(),d.getId());
                     starredService.deleteByOwnerAndDocument(loggedUser.getId(),d.getId()); 
                 }
-                
-                msg.setSummary("Files deleted");
-                msg.setSeverity(FacesMessage.SEVERITY_INFO);
             }
+            
+            String key = (getSelectedDocuments().length < 2) ? "file.deleted" : "files.deleted";
+            msg.setSummary(ResourceBundleService.getString(key,getLocale(),null));
+            msg.setSeverity(FacesMessage.SEVERITY_INFO);
         }       
         catch (Exception e){
-            msg.setSummary("An error occured");
-            msg.setDetail(e.getMessage());
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, e);
+            
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
+            msg.setDetail(e.toString());
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);            
         }
         finally{
@@ -220,16 +214,19 @@ public class HomePageController implements Serializable {
                 }
             }
             
-            msg.setSummary("File(s) shared");
+            String key = (shareList.size() < 2) ? "file.shared" : "files.shared";
+            msg.setSummary(ResourceBundleService.getString(key,getLocale(),null));
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             
             FacesContext.getCurrentInstance().addMessage(null, msg);  
             context.addCallbackParam("success", true);  
         }
         catch (Exception e){
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, e);
+            
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            msg.setSummary("An error occured. File(s) couldn't be shared");
-            msg.setDetail(e.getMessage());
+            msg.setSummary(ResourceBundleService.getString("an.error.occured",getLocale(),null));
+            msg.setDetail(e.toString());
             
             FacesContext.getCurrentInstance().addMessage(null, msg);  
             context.addCallbackParam("success", false);            
@@ -316,14 +313,18 @@ public class HomePageController implements Serializable {
     public String getCurrentMenu() {        
         switch(selectedMenu){
             case MY_DRIVE:
-                return "My Drive";
+                return  ResourceBundleService.getString("my.drive",getLocale(),null); 
             case SHARED_WITH_ME:
-                return "Shared with me";
+                return ResourceBundleService.getString("shared.with.me",getLocale(),null); 
             case STARRED:
-                return "Starred";
+                return ResourceBundleService.getString("starred",getLocale(),null);
             default:
                 return null;
         }
+    }
+    
+    private Locale getLocale(){
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
     // </editor-fold>
 }

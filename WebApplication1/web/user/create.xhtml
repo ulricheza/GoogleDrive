@@ -2,34 +2,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Create document</title>
-        <h:outputStylesheet name="app.css" library="css"  />
-    </h:head>
-    <h:body>       
-        <h:form id="form"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      lang="#{languageController.language}">
+    
+    <f:view locale="#{languageController.currentLocale}">
+        <h:head>
+            <title>#{msg['create.document']}</title>
+            <h:outputStylesheet name="app.css" library="css"  />
+        </h:head>
+        <h:body style="margin-top: 10px">
             
-            <h1>Create document</h1>            
-            <p:messages  />           
-            <div class="horizontal-line" /><br/>
-            
-            <h:panelGrid columns="2" >
-                <h:outputLabel value="Title : " for="title" />
-                <h:inputText id="title" value="#{createController.document.title}" required="true" 
-                             requiredMessage="Please enter a title"/>
-            </h:panelGrid>
-            <div class="horizontal-line" /><br/>
-            
-            <div>
-                <p:editor value="#{createController.document.content}" style="width: 70%"  />
-            </div>            
-            <div class="horizontal-line" />
-            
-            <div id="form-buttons">
-                <p:commandButton value="Save" update="form" icon="ui-icon-disk"
-                         action="#{createController.save}" />  
-            </div>
-        </h:form>    
-    </h:body>
+            <h:form id="form">
+                
+                <div style="display: inline-block">
+                    <h1><h:outputText id="page-header" value="#{msg['create.document']}" /></h1>
+                </div>
+                
+                <div style="padding: 10px;display: inline-block">
+                    <h:selectOneMenu value="#{languageController.language}">
+                        <f:selectItems value="#{languageController.locales}" />
+                        <p:ajax event="change" update="page-header messages titleLabel save-btn" 
+                                listener="#{languageController.localeChanged}" />
+                    </h:selectOneMenu>
+                </div>                
+                
+                <p:messages id="messages"  />           
+                <div class="horizontal-line" /><br/>
+
+                <h:panelGrid columns="2" >
+                    <h:outputLabel id="titleLabel" value="#{msg['title']} : " for="title" />
+                    <h:inputText id="title" value="#{createController.document.title}" required="true" 
+                                 requiredMessage="#{msg['title.required']}"/>
+                </h:panelGrid>
+                <div class="horizontal-line" /><br/>
+
+                <div>
+                    <p:editor value="#{createController.document.content}" style="width: 70%"  />
+                </div>            
+                <div class="horizontal-line" />
+
+                <div id="form-buttons">
+                    <p:commandButton id="save-btn" value="#{msg['save']}" update="form" 
+                                     icon="ui-icon-disk" action="#{createController.save}" />  
+                </div>
+            </h:form>    
+        </h:body>
+    </f:view>
 </html>

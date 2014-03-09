@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import service.ResourceBundleService;
 
 @FacesValidator
 public class LoginValidator implements Validator{
@@ -24,7 +25,9 @@ public class LoginValidator implements Validator{
         if (lth < 5 || lth > 10){
           
             FacesMessage msg = new FacesMessage();
-            msg.setSummary("Login length must be between 5 and 10 ("+lth+" currently)");
+            msg.setSummary(ResourceBundleService.getString("login.invalid.length", 
+                           FacesContext.getCurrentInstance().getViewRoot().getLocale(),
+                           new Object[]{5,10,lth}));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
             throw new ValidatorException(msg);

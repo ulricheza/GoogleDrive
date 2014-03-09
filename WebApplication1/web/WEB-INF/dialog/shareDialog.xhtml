@@ -5,17 +5,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     
-    <h:form>
-        <p:dialog header="Share" widgetVar="shareDialog" resizable="false"
+    <h:form id="share" >
+        <p:dialog header="#{msg['share']}" widgetVar="shareDialog" resizable="false"
                   modal="true" closeOnEscape="true" showEffect="fade" hideEffect="drop">
             
-            <h3>Invite people : </h3>
+            <h3>#{msg['invite.people']} : </h3>
             <p:autoComplete value="#{homePageController.shareList}" forceSelection="true"
                             converter="userConverter" required="true" multiple="true"
-                            requiredMessage="Please choose a valid user login"
+                            requiredMessage="#{msg['choose.valid.login']}"
                             completeMethod="#{homePageController.complete}" />
             
-            <p:commandButton value="Done" update="sharingErrors" style="margin-top:10px"
+            <p:commandButton value="#{msg['done']}" update="sharingErrors" style="margin-top:10px"
                              actionListener="#{homePageController.share}"
                              oncomplete="handleShareRequest(xhr, status, args)"/>
             

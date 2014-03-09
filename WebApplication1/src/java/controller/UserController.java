@@ -10,6 +10,7 @@ import entity.Remember;
 import entity.User;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import service.CookieService;
 import service.RememberService;
+import service.ResourceBundleService;
 import service.UserService;
 
 @ManagedBean
@@ -71,9 +73,13 @@ public class UserController implements Serializable{
             return HOME_PAGE;
         }
         else{
-            sendError("Login failed");
+            sendError(ResourceBundleService.getString("login.failed",getLocale(),null));
             return null;
         }
+    }
+    
+    private Locale getLocale(){
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
     
     public String logout(){        
@@ -94,12 +100,12 @@ public class UserController implements Serializable{
     
     public String register() {  
         
-        if (!pwdConfirmation.equals(user.getPassword())){            
-            sendError("Passwords don't match");            
+        if (!pwdConfirmation.equals(user.getPassword())){   
+            sendError(ResourceBundleService.getString("passwords.do.not.match",getLocale(),null));            
             return null;
         }
         else if (userService.findByLogin(user.getLogin()) != null){
-            sendError("Login already in use");            
+            sendError(ResourceBundleService.getString("login.already.in.use",getLocale(),null));            
             return null;            
         }        
         else {
