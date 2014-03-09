@@ -38,9 +38,6 @@ public class User implements Serializable{
     
     private String password;
     
-    /*@OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
-    private List<Document> documents;*/
-    
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Remember remember;
         
@@ -50,24 +47,6 @@ public class User implements Serializable{
         this.login = login;
         this.password = password;
     }
-    
-   /* public void addToDocuments(Document document) {
-       // System.out.println("Document "+document.getId() + " added");
-        this.documents.add(document);
-    }    
-    public void removeFromDocuments(Document document){
-        
-        this.documents.remove(document);
-        
-        /*System.out.println("Input : "+ document.getId() + "\n");
-        
-        System.out.println("Previous");
-        for( Document d : documents) System.out.println(d.getId());
-        
-        
-        System.out.println("\n After");
-        for( Document d : documents) System.out.println(d.getId());
-    }*/
     
     @Override
     public int hashCode() {
@@ -105,10 +84,6 @@ public class User implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-
-   /* public List<Document> getDocuments() {
-        return documents;
-    } */   
     
     public Remember getRemember(){
         return remember;

@@ -15,19 +15,17 @@ import javax.faces.validator.ValidatorException;
 import service.ResourceBundleService;
 
 @FacesValidator
-public class PasswordValidator implements Validator{
+public class TitleValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String password = (String)value;        
-        int lth = password.length();
+        int lth = ((String)value).trim().length();
         
-        if (lth < 5){
-          
+        if (lth == 0){
             FacesMessage msg = new FacesMessage();
-            msg.setSummary(ResourceBundleService.getString("password.toosmall", 
+            msg.setSummary(ResourceBundleService.getString("title.required", 
                            FacesContext.getCurrentInstance().getViewRoot().getLocale(),
-                           new Object[]{4}));
+                           null));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
             throw new ValidatorException(msg);

@@ -27,7 +27,7 @@ public class LoginValidator implements Validator{
             FacesMessage msg = new FacesMessage();
             msg.setSummary(ResourceBundleService.getString("login.invalid.length", 
                            FacesContext.getCurrentInstance().getViewRoot().getLocale(),
-                           new Object[]{5,10,lth}));
+                           new Object[]{5,10}));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             
             throw new ValidatorException(msg);

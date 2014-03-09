@@ -32,7 +32,8 @@
                     <p:dataTable id="dataTable" var="document" value="#{homePageController.documentsModel}" 
                                  paginator="true" rows="10" rendered="#{userHasDocuments}"
                                  editable="true" editMode="cell"
-                                 selection="#{homePageController.selectedDocuments}" >
+                                 selection="#{homePageController.selectedDocuments}"
+                                 style="table-layout: fixed">
                     
                         <p:ajax event="toggleSelect" update="@form:toolbar" />     
                         <p:ajax event="rowSelectCheckbox" update="@form:previewDialog @form:toolbar" />
@@ -42,15 +43,16 @@
                         
                         <p:column selectionMode="multiple" style="width:2%"  />
                         
-                        <p:column sortBy="title" headerText="#{msg['title']}" style="width:33%">
-                            <h:outputText value="#{document.title}" />                         
+                        <p:column sortBy="title" headerText="#{msg['title']}" 
+                                  style="width:40%;text-overflow: ellipsis;white-space: nowrap;">
+                            <h:outputText value="#{document.title}" />
                         </p:column>
                         
-                        <p:column sortBy="#{document.owner.login}" headerText="#{msg['owner']}" style="width:30%">
+                        <p:column sortBy="#{document.owner.login}" headerText="#{msg['owner']}" style="width:20%">
                             #{document.owner.login}
                         </p:column>
                         
-                        <p:column sortBy="lastModified" headerText="#{msg['last.modified']}" style="width:35%">
+                        <p:column sortBy="lastModified" headerText="#{msg['last.modified']}" style="width:40%">
                             <h:outputText value="#{document.lastModified}">
                                 <f:convertDateTime type="both" timeStyle="short"  />
                             </h:outputText>

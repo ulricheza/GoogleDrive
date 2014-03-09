@@ -21,12 +21,7 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class LanguageController implements Serializable {
     
-    private Locale currentLocale;
-    
-    public LanguageController(){
-        Application application = FacesContext.getCurrentInstance().getApplication();
-        currentLocale = application.getDefaultLocale();
-    }
+    private Locale currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     
     public String getLanguage(){
         return currentLocale.getLanguage();

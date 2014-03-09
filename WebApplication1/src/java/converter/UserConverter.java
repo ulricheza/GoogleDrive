@@ -41,5 +41,4 @@ public class UserConverter implements Converter {
             throw new RuntimeException(ne);
         }
     }
-
 }

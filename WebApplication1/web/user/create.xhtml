@@ -32,8 +32,9 @@
 
                 <h:panelGrid columns="2" >
                     <h:outputLabel id="titleLabel" value="#{msg['title']} : " for="title" />
-                    <h:inputText id="title" value="#{createController.document.title}" required="true" 
-                                 requiredMessage="#{msg['title.required']}"/>
+                    <h:inputText id="title" value="#{createController.document.title}" 
+                                 required="true" requiredMessage="#{msg['title.required']}"
+                                 validator="titleValidator" converter="titleConverter"/>
                 </h:panelGrid>
                 <div class="horizontal-line" /><br/>
 

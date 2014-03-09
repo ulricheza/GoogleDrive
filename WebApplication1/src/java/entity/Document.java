@@ -33,6 +33,7 @@ public class Document implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Lob
     private String title;
     
     @ManyToOne
