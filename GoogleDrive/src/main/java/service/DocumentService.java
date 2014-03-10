@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class DocumentService extends AbstractFacade<Document> {
-    @PersistenceContext(unitName = "WebApplication1PU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

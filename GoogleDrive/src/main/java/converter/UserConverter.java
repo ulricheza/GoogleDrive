@@ -19,8 +19,7 @@ import service.UserService;
 
 @FacesConverter(value = "userConverter")
 public class UserConverter implements Converter {
-    
-    UserService userService = lookupUserServiceBean();
+    UserService userService = lookupUserServiceBean();    
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String login) {
@@ -35,7 +34,7 @@ public class UserConverter implements Converter {
     private UserService lookupUserServiceBean() {
         try {
             Context c = new InitialContext();
-            return (UserService) c.lookup("java:global/WebApplication1/UserService!service.UserService");
+            return (UserService) c.lookup("java:global/GoogleDrive/UserService!service.UserService");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

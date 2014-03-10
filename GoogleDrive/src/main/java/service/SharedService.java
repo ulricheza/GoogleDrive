@@ -18,7 +18,7 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class SharedService extends AbstractFacade<Shared> {
-    @PersistenceContext(unitName = "WebApplication1PU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

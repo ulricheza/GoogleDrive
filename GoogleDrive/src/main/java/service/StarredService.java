@@ -17,7 +17,7 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class StarredService extends AbstractFacade<Starred> {
-    @PersistenceContext(unitName = "WebApplication1PU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

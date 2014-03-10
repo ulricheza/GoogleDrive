@@ -28,7 +28,7 @@ import service.RememberService;
 
 @WebFilter("/faces/auth/*")
 public class AuthenticationFilter implements Filter{
-    RememberService rememberService = lookupRememberServiceBean();
+    RememberService rememberService = lookupRememberServiceBean();    
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -74,7 +74,7 @@ public class AuthenticationFilter implements Filter{
     private RememberService lookupRememberServiceBean() {
         try {
             Context c = new InitialContext();
-            return (RememberService) c.lookup("java:global/WebApplication1/RememberService!service.RememberService");
+            return (RememberService) c.lookup("java:global/GoogleDrive/RememberService!service.RememberService");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

@@ -15,7 +15,7 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class UserService extends AbstractFacade<User> {
-    @PersistenceContext(unitName = "WebApplication1PU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

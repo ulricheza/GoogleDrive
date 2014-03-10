@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 @Stateless
 public class RememberService extends AbstractFacade<Remember> {
-    @PersistenceContext(unitName = "WebApplication1PU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override
