@@ -42,7 +42,7 @@ We mainly used **four external librairies**:
 * [Junit 4.0](http://junit.org/) (for unit tests)
 * [Mockito 1.9.5](http://code.google.com/p/mockito/) (for mocks creation and stubbing)
 
-These librairies are specified in the **pom.xml** file and will be **automatically downloaded** (along with their extra depencies) at compilation time.
+These librairies are specified in the **pom.xml** file and will be **automatically downloaded** (along with their extra dependencies) at compilation time.
 
 Database
 -

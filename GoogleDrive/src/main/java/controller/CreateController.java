@@ -69,7 +69,7 @@ public class CreateController implements Serializable{
         return "/user/homepage?faces-redirect=true";
     }
     
-    private Locale getLocale(){
+    public Locale getLocale(){
         return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
 }
