@@ -9,10 +9,11 @@ package unit;
 import java.util.Locale;
 import org.junit.Test;
 import service.ResourceBundleService;
+
 public class ResourceBundleServiceTest {
 
     @Test
-    public void tesGetString(){
+    public void testGetString(){
                
         // English
         String expected = "Register";

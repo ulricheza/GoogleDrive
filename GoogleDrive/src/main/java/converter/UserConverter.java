@@ -35,7 +35,8 @@ public class UserConverter implements Converter {
         try {
             Context c = new InitialContext();
             return (UserService) c.lookup("java:global/GoogleDrive/UserService!service.UserService");
-        } catch (NamingException ne) {
+        } 
+        catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }

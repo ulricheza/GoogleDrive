@@ -33,7 +33,5 @@ public class UserServiceTest {
         // Valid user and password
         u = new User("admin", "admin");
         assertTrue(mockService.signIn(u));
-        
-        verify(mockService, times(3)).findByLogin(anyString());
     }
 }

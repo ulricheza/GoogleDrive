@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-package unit;
+package all;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    unit.UserServiceTest.class, 
-    unit.ResourceBundleServiceTest.class, 
-    unit.CreateControllerTest.class
+    integration.CreateControllerTest.class,
+    integration.EditControllerTest.class,
+    integration.UserControllerTest.class
 })
-public class ProjectTestSuite {}
+public class IntegrationTestSuite {}

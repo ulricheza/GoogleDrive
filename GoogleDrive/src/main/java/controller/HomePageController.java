@@ -269,30 +269,7 @@ public class HomePageController implements Serializable {
         if (selectedDocuments == null) return null;        
         if (selectedDocuments.length != 1) return null;
         return selectedDocuments[0];
-    }
-    
-    /*public void onCellEdit(CellEditEvent event) {  
-        String oldValue = (String) event.getOldValue();  
-        String newValue = (String) event.getNewValue();
-        
-        if(!newValue.isEmpty() && !newValue.equals(oldValue)) {
-            List<Document> docs = (List<Document>) documentsModel.getWrappedData();  
-            Document d = docs.get(event.getRowIndex());
-            
-            d.setTitle(newValue);
-            d.setLastModified(new Date());            
-            
-            documentService.edit(d);      
-            User owner = d.getOwner();
-            owner.removeFromDocuments(d);
-            owner.addToDocuments(d);
-            
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);  
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }  
-        
-        //refresh();
-    }*/
+    }   
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Ajax refresh">

@@ -66,7 +66,7 @@ public class CreateController implements Serializable{
             context.addMessage(null, msg);
         }
         
-        return "/user/homepage?faces-redirect=true";
+        return UserController.HOME_PAGE;
     }
     
     public Locale getLocale(){

@@ -7,12 +7,12 @@ What we did
 * Implemented a **register page**
 * Implemented a **login page** with a **remember me option** (30 days)
 * **High security level** (password encryption, page access firewall)
-* **Used HTTP response codes** (HTTP_NOT_FOUND, HTTP_FORBIDDEN) and added a **custom error page**
+* **Used HTTP status codes** (HTTP_NOT_FOUND, HTTP_FORBIDDEN) and added a **custom error page**
 * Used **Facelet templates** to design pages
 * Files **online creation and edition, uploading, downloading** (in html format) **and sharing**
 * Performed all actions with **ajax requests**
 * **Used MVC pattern** to separate logic from views
-* **Wrote unit tests** to test our application
+* **Wrote unit and integration tests** to test our application
 * **Used mocks** in our tests
 * **Internationalization** (English and French)
 * **Used git** to commit our work throughout the entire project

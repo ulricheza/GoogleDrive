@@ -60,7 +60,7 @@ public class EditController implements Serializable{
         try{
             if (notFound){
                 errorMsg = ResourceBundleService.getString("file.does.not.exist",getLocale(),null);
-                ec.responseSendError(HttpURLConnection.HTTP_NOT_FOUND,errorMsg);
+                ec.responseSendError(HttpURLConnection.HTTP_NOT_FOUND,errorMsg);               
             }
             else if (!document.getOwner().equals(loggedUser) && !isShared(document)) {
                 errorMsg = ResourceBundleService.getString("not.allowed.to.edit",getLocale(),null);
@@ -81,6 +81,10 @@ public class EditController implements Serializable{
     
     public Document getDocument() {
         return document;
+    }
+    
+    public void setDocument(Document d){
+        this.document = d;
     }
     
     public String update(){
@@ -107,14 +111,14 @@ public class EditController implements Serializable{
             context.addMessage(null, msg);
         }
         
-        return "/user/homepage?faces-redirect=true";
+        return UserController.HOME_PAGE;
     }
 
-    private boolean isShared(Document document) {
+    public boolean isShared(Document document) {
         return sharedService.findDocumentsByUser(loggedUser.getId()).contains(document);                   
     }
     
-    private Locale getLocale(){
+    public Locale getLocale(){
         return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
 }

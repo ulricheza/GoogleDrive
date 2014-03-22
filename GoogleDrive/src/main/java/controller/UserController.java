@@ -28,8 +28,8 @@ import service.UserService;
 @SessionScoped
 public class UserController implements Serializable{
     
-    private static final String HOME_PAGE = "/user/homepage?faces-redirect=true";
-    private static final String LOGIN_PAGE = "/auth/login?faces-redirect=true";
+    public static final String HOME_PAGE = "/user/homepage?faces-redirect=true";
+    public static final String LOGIN_PAGE = "/auth/login?faces-redirect=true";
         
     private User user;
     private String pwdConfirmation;
@@ -78,7 +78,7 @@ public class UserController implements Serializable{
         }
     }
     
-    private Locale getLocale(){
+    public Locale getLocale(){
         return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
     
