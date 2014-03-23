@@ -52,3 +52,9 @@ in order to avoid running into configuration stuffs.
 
 If you use another IDE (ex: Eclipse), you'll have to edit the **persistence.xml**
 file to configure a new database.
+
+How to get the source code
+=
+
+* **With git** :  `git clone https://github.com/ulricheza/GoogleDrive.git`
+* Or by **downloading the zip file** here on github
