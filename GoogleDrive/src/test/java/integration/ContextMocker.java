@@ -29,14 +29,14 @@ public abstract class ContextMocker extends FacesContext {
     private static final AddMessage ADD_MESSAGE = new AddMessage();
     private static final ResponseSendError RESPONSE_SEND_ERROR = new ResponseSendError();    
     
-    private static final List<FacesMessage> messagesList = new ArrayList<>();
+    private static final List<FacesMessage> messagesList = new ArrayList<FacesMessage>();
     public static int responseStatusCode;
     
     public static void mockFacesContext() {
         try {
             // the session Map
-            Map<String,Object> sessionMap = new HashMap<>();
-            Map<String,String> requestParameterMap = new HashMap<>();
+            Map<String,Object> sessionMap = new HashMap<String,Object>();
+            Map<String,String> requestParameterMap = new HashMap<String,String>();
             
             // mock the external context
             ExternalContext ec = mock(ExternalContext.class);
@@ -80,8 +80,8 @@ public abstract class ContextMocker extends FacesContext {
     private static class ResponseSendError implements Answer<Void> {
        @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {
-            Object[] args = invocation.getArguments();
-            responseStatusCode = (int) args[0];
+            Object[] args = invocation.getArguments();            
+            responseStatusCode = (Integer) args[0];
             return null;
         }
     } 

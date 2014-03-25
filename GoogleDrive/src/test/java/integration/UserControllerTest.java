@@ -51,11 +51,13 @@ public class UserControllerTest {
     
     @Before
     public void init(){
+        controller.init();
         FacesContext.getCurrentInstance().getMessageList().clear();
     }
     
     @Test
     public void testSucessfullSignIn(){
+        doReturn(new User()).when(userService).findByLogin(anyString());
         doReturn(true).when(userService).signIn(any(User.class));         
         
         String expected = UserController.HOME_PAGE;
@@ -94,6 +96,8 @@ public class UserControllerTest {
     
     @Test
     public void testRegisterWithLoginInUse(){
+        doReturn(new User()).when(userService).findByLogin(anyString());
+        
         controller.getUser().setPassword("matchingPwd");
         controller.setPwdConfirmation("matchingPwd");
         
@@ -106,12 +110,13 @@ public class UserControllerTest {
     
     @Test
     public void testRegisterWithValidLogin(){
+        doReturn(null).when(userService).findByLogin(anyString());
+
         controller.getUser().setPassword("matchingPwd");
         controller.setPwdConfirmation("matchingPwd");
         
         controller.setRemember(false);
-        doReturn(null).when(userService).findByLogin(anyString());
-        
+                
         String expected = UserController.HOME_PAGE;
         String actual = controller.register();
         assert actual.equals(expected);
@@ -130,7 +135,6 @@ public class UserControllerTest {
     //<editor-fold desc="Mocking methods" defaultstate="collapsed">
     private static void mockUserService(){
         userService = mock(UserService.class);        
-        doReturn(new User()).when(userService).findByLogin(anyString());
     }
     
     private static void mockRememberService(){
@@ -157,7 +161,7 @@ public class UserControllerTest {
             f.set(obj, fieldValue);
             f.setAccessible(false);
         }
-        catch (NoSuchFieldException|SecurityException|IllegalArgumentException|IllegalAccessException ex){
+        catch (Exception ex){
             Logger.getLogger(CreateControllerTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("An Exception occured: " + ex.getMessage());
         }        

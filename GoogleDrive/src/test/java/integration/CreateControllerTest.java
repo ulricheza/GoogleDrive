@@ -99,7 +99,7 @@ public class CreateControllerTest {
             f.set(obj, fieldValue);
             f.setAccessible(false);
         }
-        catch (NoSuchFieldException|SecurityException|IllegalArgumentException|IllegalAccessException ex){
+        catch (Exception ex){
             Logger.getLogger(CreateControllerTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("An Exception occured: " + ex.getMessage());
         }        

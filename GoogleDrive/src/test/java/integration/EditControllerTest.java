@@ -51,8 +51,7 @@ public class EditControllerTest {
         
         // The logged user
         loggedUser = new User();
-        setField(loggedUser,"id",2L);
-        
+        setField(loggedUser,"id",2L);        
         
         mockDocumentService();
         mockController();
@@ -116,6 +115,9 @@ public class EditControllerTest {
         // correct id is passed as parameter 
         putInRequestParameterMap("id","1");
         
+        // logged User
+        putInSessionMap("loggedUser",loggedUser); 
+        
         // doc is now shared with loggedUser
         doReturn(true).when(controller).isShared(any(Document.class));
         
@@ -131,11 +133,11 @@ public class EditControllerTest {
         // correct id is passed as parameter 
         putInRequestParameterMap("id","1");
         
+        // loggedUser is doc.owner
+        putInSessionMap("loggedUser",doc.getOwner());  
+        
         // doc is not shared with loggedUser
         doReturn(false).when(controller).isShared(any(Document.class));
-        
-        // loggedUser is doc.owner
-        putInSessionMap("loggedUser",doc.getOwner());        
         
         // doc not shared but loggedUser == doc.owner --> can edit
         controller.validateId();
@@ -198,7 +200,7 @@ public class EditControllerTest {
             f.set(obj, fieldValue);
             f.setAccessible(false);
         }
-        catch (NoSuchFieldException|SecurityException|IllegalArgumentException|IllegalAccessException ex){
+        catch (Exception ex){
             Logger.getLogger(CreateControllerTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("An Exception occured: " + ex.getMessage());
         }        
